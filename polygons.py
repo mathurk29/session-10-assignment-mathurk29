@@ -1,5 +1,4 @@
 from math import sin, cos, pi
-from typing import Type
 
 
 class Polygon():
@@ -15,12 +14,12 @@ class Polygon():
     '''
 
     def __init__(self, vertices, circumradius):
+        
         if type(vertices) != int:
             raise ValueError
-        self.__vertices = vertices  # Private Attributes
-
-        self.__circumradius = circumradius  # Private Attributse
-        self.interior_angle = None
+        self.__vertices = vertices
+        self.__circumradius = circumradius
+        self._interior_angle = None
         self.edge_length = None
         self.apothem = None
         self.area = None
@@ -44,8 +43,8 @@ class Polygon():
         self._calculatePerimeter()
 
     def _calculateInteriorAngle(self):
-        self.interior_angle = 0
-        self.interior_angle = (self.__vertices - 2) * 180 / pi
+        self._interior_angle = 0
+        self._interior_angle = (self.__vertices - 2) * 180 / pi
 
     def _calculateEdgeLength(self):
         self.edge_length = (2 * self.__vertices) * sin(pi/self.__vertices)
@@ -65,7 +64,7 @@ class Polygon():
         self.perimeter = self.__vertices * self.edge_length
 
     def __repr__(self):
-        return f'This is an object of regular strictly convex polygon with {self.vertices} and circumradius of {self.circumradius}'
+        return f'A regular strictly convex polygon with {self.vertices} vertices and circumradius of {self.circumradius} units'
 
     def __eq__(self, other):
         if self.__vertices == other.vertices and self.__circumradius == other.circumradius:

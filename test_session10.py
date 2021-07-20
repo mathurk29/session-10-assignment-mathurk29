@@ -56,11 +56,11 @@ def test_PolygonSequence__getItem__():
 
     poly_seq = PolygonSequence(10, 20)
     assert poly_seq.__getitem__(
-        0).vertices == 3, '0th element is supposed to be a Polygon of 3 sides'
+        3).vertices == 3, '0th element is supposed to be a Polygon of 3 sides'
     assert poly_seq.__getitem__(
-        3).vertices == 6, 'The nth element is supposed to give a Polygon of n+3 sides'
+        6).vertices == 6, 'The nth element is supposed to give a Polygon of n+3 sides'
     assert poly_seq.__getitem__(
-        7).vertices == 10, 'The nth element is supposed to give a Polygon of n+3 sides'
+        10).vertices == 10, 'The nth element is supposed to give a Polygon of n+3 sides'
     assert poly_seq.__getitem__(
         -1).vertices == 10, 'The nth element is supposed to give a Polygon of n+3 sides'
     assert poly_seq.__getitem__(
@@ -68,11 +68,11 @@ def test_PolygonSequence__getItem__():
 
     poly_seq = PolygonSequence(50, 20)
     assert poly_seq.__getitem__(
-        0).vertices == 3, '0th element is supposed to be a Polygon of 3 sides'
+        3).vertices == 3, '0th element is supposed to be a Polygon of 3 sides'
     assert poly_seq.__getitem__(
-        7).vertices == 10, 'The nth element is supposed to give a Polygon of n+3 sides'
+        10).vertices == 10, 'The nth element is supposed to give a Polygon of n+3 sides'
     assert poly_seq.__getitem__(
-        47).vertices == 50, 'The nth element is supposed to give a Polygon of n+3 sides'
+        50).vertices == 50, 'The nth element is supposed to give a Polygon of n+3 sides'
     assert poly_seq.__getitem__(
         -1).vertices == 50, 'The -ve nth element is supposed to give a Polygon of (n+3) sides'
 

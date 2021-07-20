@@ -39,26 +39,23 @@ class PolygonSequence():
     @staticmethod
     @lru_cache(2**10)
     def _polygonCache(number_of_edges: int, circumradius: int) -> Polygon:
+        if number_of_edges < 3:
+            return TypeError("Polygon cant have less than 3 sides"), ValueError('Polygon cant have less than 3 sides')
         polygon = Polygon(number_of_edges, circumradius)
         return (polygon, polygon.area/polygon.perimeter)
 
-    def __getitem__(self, n: int):
-        ''' Returns the nth Polygon in the sequence, starting from 0'''
-
-        if isinstance(n, int):
-            if n >= 0:
-                # For ease of calculations
-                n = n + 3
-                if n - 3 < 0:
-                    n = n + self.maxnumber_of_edges
-                if n < 3 or n >= self.maxnumber_of_edges + 3:
-                    raise IndexError
-                else:
-                    return PolygonSequence._polygonCache(n, self.circumradius)[0]
+    def __getitem__(self, s):
+        if isinstance(s, int):
+            if s < 0:
+                s = self.maxnumber_of_edges + s + 1
+            if s < 0 or s >self.maxnumber_of_edges:
+                raise IndexError
             else:
-                return self.__getitem__(self.maxnumber_of_edges + n + 1 - 3)
+                return PolygonSequence._polygonCache(s,self.circumradius)[0]
         else:
-            raise TypeError
+            start, stop, step = s.indices(self.maxnumber_of_edges)
+            rng = range(start, stop, step)
+            return [PolygonSequence._polygonCache(i,self.circumradius) for i in rng]
 
     def max_efficient(self):
         max_ratio = edge = 0

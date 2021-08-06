@@ -52,6 +52,19 @@ def test_validation_PolgonSequence():
         PolygonSequence(2, 100)
 
 
+def test_PolygonSequence__getItem__1():
+
+    poly_seq = PolygonSequence(10, 20)
+    with pytest.raises(IndexError):
+        poly_seq.__getitem__(0)
+    with pytest.raises(IndexError):
+        poly_seq.__getitem__(1)
+    with pytest.raises(IndexError):
+        poly_seq.__getitem__(2)
+    with pytest.raises(IndexError):
+        poly_seq.__getitem__(30)
+     
+
 def test_PolygonSequence__getItem__():
 
     poly_seq = PolygonSequence(10, 20)

@@ -4,10 +4,32 @@ Email ID: mathurk29@gmail.com
 # Sequences Types
 
 
+Sequence: collection whose elements are indexed.
 
-All sequences are iterables, but all iterables are not sequences i.e. unordered collections For ex: Set
+Iterable: collection whose elements can be iterated
 
 
+Python's default sequence types:
+- all sequence types are indexable and start with 0.
+- all sequence types are iterable
+- s[1] will give TypeError, cz set is not a Type that is indexable
+
+
+- **All sequences are iterables** ie we can iterate over them
+
+-  **but all iterables are not sequences** 
+
+- Set is not a sequence as it is not subscriptible
+
+- Set is an itearable as we can loop over it.
+
+- iterables are more general than sequence types. i.e.
+
+**Iterables which are indexed are sequences**
+
+- sequence types mostly will have `in` operator.
+
+-
 
 ## Concatenation
 Concatenation takes 2 **sequences** of same **type** and concatenate them together
@@ -76,10 +98,56 @@ id(l[0]), id(l2[0]), id(l2[1])
 
 # Copy vs deepcoypy
 
+```python
+l = [Decimal(10.5)]
+
+l2 = l * 2 # This is called repetition
+
+id(l[0]), id(l2[0]), id(l2[1]) # All would be same
+
+```
+In repeatition, we use **same object** and **repeat** it
+
+The above concept is a concern because if you change one object, you invariably change all the objects referencing to it.
+
+
+
+
+- Tip: to empty a list, don't use ``` l = []``` cz it will create a new list. Use ``` l.clear()```
+
+- functions doing in-place operations generally return NoneType
+
+- list.append() just takes one arg
+- for > one element, use extend
+
+
+We can also extend a list using slicing.
+```
+For ex:
+
+l = [1,2,3]
+l[-1:0] = (4,5,6)
+# l = [1,2,3,4,5,6]
+
+```
+
+ - reverse a string
+ 1. `l[::-1] # will create new list`
+ 2. `l.reverse() #in-place operation`
+
+## copy function
+
+This function does first level copy (SHALLOW COPY).
+ie. it will create new object, but its contents will refer to same mem addresses.
+
+
 Shallow copy refers to same object. Deepcopy iteratively creates new objects - as much as depth is there.
 
+## deepcopy
 
-## dis
+It will create new objects recursively, except string interning.
+
+## Disassemble
 
 ```
 from dis import dis
@@ -112,4 +180,64 @@ List has less Storage efficiency as it keeps some room for more elements.
 
 
 
-# Slicing
+## Slicing
+
+> data = 'rohan shravan ka03mt9999 aqeo4523w bangalore'
+> range_name = slice(0, 5)
+
+> data[0:5]
+'rohan'
+
+> data[slice]
+'rohan'
+
+## Few examples
+```
+> l = 'python'
+> l[1:1], l[0:600], l[0:6:3], l[:], l[:-1], l[None:], l[None:None], l[6::-1]
+
+('', 'python', 'ph', 'python', 'pytho', 'python', 'python', 'nohtyp')
+```
+
+# Custom Sequences
+
+`len(my_list)` is same as ` my_list.__len__()`
+
+`my_list[2]` is same as ` my_list.__getitem__(2)`
+
+`my_list[::-1]` is same as  `my_list.__getitem__(slice(None, None, -1))`
+
+If we implement above three methods, we have our own custom sequence!
+
+Apart from it, we have to raise IndexError if accessing outside list.
+
+```python
+
+from functools import lru_cache
+
+class Fib:
+    def __init__(self, n):
+        self.n = n
+
+    def __len__(self):
+        return self.n
+
+    def __getitem__(self, s):
+        if isinstance(s, int):
+            if s < 0 or s >=self.n:
+                raise IndexError
+            else:
+                return Fib._fib(s)
+            
+    @staticmethod #Static methods are methods that are bound to a class rather than its object.
+    @lru_cache(2**10) #powers of 2
+    def _fib(n):
+        if n < 2:
+            return 1
+        else:
+            return Fib._fib(n-1) + Fib._fib(n-2)
+
+
+```
+
+Static methods written at module level can't be override by a subclass.
